@@ -17,6 +17,7 @@ async function rollPool() {
     try {
         const result = await api.roll(pool.dice());
         board.throw(result);
+        pool.clear(); // start each roll with a fresh selection
     } catch (error) {
         board.showError(error.message);
     }
