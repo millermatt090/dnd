@@ -2,23 +2,23 @@ import { DicePool } from "./dice/dice-pool.js";
 import { DiceApi } from "./api/dice-api.js";
 import { DieButton } from "./die-button/die-button.js";
 import { PoolTray } from "./pool-tray/pool-tray.js";
-import { ResultsView } from "./results-view/results-view.js";
+import { DiceBoard } from "./dice-board/dice-board.js";
 
 const pool = new DicePool();
 const api = new DiceApi();
 
-const results = new ResultsView({
-    faces: document.getElementById("faces"),
-    total: document.getElementById("result"),
-    detail: document.getElementById("detail"),
+const board = new DiceBoard({
+    board: document.getElementById("board"),
+    message: document.getElementById("board-message"),
+    status: document.getElementById("board-status"),
 });
 
 async function rollPool() {
     try {
         const result = await api.roll(pool.dice());
-        results.show(result, pool.notation());
+        board.throw(result);
     } catch (error) {
-        results.showError(error.message);
+        board.showError(error.message);
     }
 }
 
