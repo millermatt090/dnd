@@ -9,14 +9,8 @@ function createRoll(json) {
  * Everything returned by one press of the Roll button.
  */
 export class RollResult {
-    constructor({ rolls, total }) {
+    constructor({ rolls }) {
         this.rolls = rolls.map(createRoll);
-        this.total = total;
-    }
-
-    // The total is only coloured when a single d20 was rolled on its own.
-    get critClass() {
-        return this.rolls.length === 1 ? this.rolls[0].critClass : "";
     }
 
     describe() {

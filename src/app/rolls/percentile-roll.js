@@ -1,3 +1,4 @@
+import { faceSrc } from "../dice.js";
 import { DieRoll } from "./die-roll.js";
 
 /**
@@ -16,8 +17,8 @@ export class PercentileRoll extends DieRoll {
 
     faces() {
         return [
-            { src: `/assets/d100/${this.tensLabel}.png`, alt: `d% ${this.tensLabel}` },
-            { src: `/assets/d10/${this.ones}.png`, alt: `d10 ${this.ones}` },
+            { die: "d100", src: faceSrc("d100", this.tensLabel), alt: `d% ${this.tensLabel}` },
+            { die: "d10", src: faceSrc("d10", this.ones), alt: `d10 ${this.ones}` },
         ];
     }
 

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/app/shared/base.css">
     <link rel="stylesheet" href="/app/die-button/die-button.css">
     <link rel="stylesheet" href="/app/pool-tray/pool-tray.css">
-    <link rel="stylesheet" href="/app/results-view/results-view.css">
+    <link rel="stylesheet" href="/app/dice-board/dice-board.css">
 </head>
 <body>
     <h1>🎲 Dice Roller</h1>
@@ -54,9 +54,10 @@
         </div>
     </div>
 
-    <div id="faces"></div>
-    <div id="result">–</div>
-    <div id="detail"></div>
+    <div id="board" class="board">
+        <p id="board-message" class="board-message">Pick some dice and press Roll</p>
+        <p id="board-status" class="sr-only" aria-live="polite"></p>
+    </div>
 
     <script type="module" src="/app/main.js"></script>
 </body>

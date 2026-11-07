@@ -1,3 +1,5 @@
+import { faceSrc } from "../dice.js";
+
 /**
  * The result of rolling one standard die (d4 through d20).
  */
@@ -21,11 +23,12 @@ export class DieRoll {
         return "";
     }
 
-    // Images to show for this roll: [{ src, alt }].
+    // The physical dice that land on the board: [{ die, src, alt }].
     faces() {
         return [
             {
-                src: `/assets/${this.die}/${this.value}.png`,
+                die: this.die,
+                src: faceSrc(this.die, this.value),
                 alt: `${this.die} ${this.value}`,
             },
         ];

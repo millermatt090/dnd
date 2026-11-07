@@ -15,10 +15,11 @@ Open http://localhost:8000
 ├── requirements.txt              Python runtime dependencies
 ├── scripts/                      Dev tools (not included in the Docker image)
 │   ├── generate_dice_assets.py   Draws the die face images
+│   ├── generate_board_asset.py   Draws the felt dice board
 │   └── requirements-dev.txt
 └── src/
     ├── main.py                   FastAPI backend: roll API, serves the front end
-    ├── assets/                   Die face images, src/assets/<die>/<face>.png
+    ├── assets/                   Die faces (<die>/<face>.png) and board/board.jpg
     └── app/                      Front end (served at /app)
         ├── index.html
         ├── main.js               Entry point: creates and wires the components
@@ -31,13 +32,14 @@ Open http://localhost:8000
         ├── pool-tray/
         │   ├── pool-tray.js      Selected dice summary with Roll and Clear buttons
         │   └── pool-tray.css
-        ├── results-view/
-        │   ├── results-view.js   Die faces, total and breakdown of a roll
-        │   └── results-view.css
+        ├── dice-board/
+        │   ├── dice-board.js     Felt board the dice are thrown onto
+        │   ├── rolling-die.js    One die: tumbles, travels and lands on its result
+        │   └── dice-board.css
         ├── rolls/
         │   ├── die-roll.js       Result of one standard die
         │   ├── percentile-roll.js  Result of a d% roll (tens + ones)
-        │   └── roll-result.js    All rolls and the total from one Roll press
+        │   └── roll-result.js    All rolls from one Roll press
         ├── api/
         │   └── dice-api.js       Calls the backend roll endpoint
         └── shared/
@@ -57,3 +59,4 @@ Dice: d4, d6, d8, d10, d12, d20, d100 (percentile).
 
     pip install -r scripts/requirements-dev.txt
     python scripts/generate_dice_assets.py
+    python scripts/generate_board_asset.py
