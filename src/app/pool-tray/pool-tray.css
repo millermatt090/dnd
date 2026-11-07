@@ -1,0 +1,50 @@
+/* Styles for PoolTray (pool-tray.js). */
+.tray {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 640px;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+#pool-summary {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.tray-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+button.action {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.action.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+button.action:hover:not(:disabled) {
+    filter: brightness(1.15);
+}
+
+button.action:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

@@ -1,0 +1,10 @@
+/* Colour palette shared by every component. */
+:root {
+    --bg: #1b1a1f;
+    --panel: #26242c;
+    --accent: #c0392b;
+    --crit: #2ecc71;
+    --text: #eee;
+    --muted: #999;
+    --border: #444;
+}

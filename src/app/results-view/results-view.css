@@ -1,0 +1,68 @@
+/* Styles for ResultsView (results-view.js). */
+
+/* Die face images */
+#faces {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 640px;
+    min-height: 120px;
+    margin-top: 2rem;
+}
+
+.face {
+    width: 120px;
+    height: 120px;
+}
+
+#faces.many .face {
+    width: 64px;
+    height: 64px;
+}
+
+.face.crit {
+    filter: drop-shadow(0 0 10px var(--crit));
+}
+
+.face.fumble {
+    filter: drop-shadow(0 0 10px var(--accent));
+}
+
+/* Total */
+#result {
+    margin: 1rem 0 0.5rem;
+    min-height: 6rem;
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+#result.crit {
+    color: var(--crit);
+}
+
+#result.fumble {
+    color: var(--accent);
+}
+
+/* Breakdown line, e.g. "1d4 + 1d20: d4 3, d20 17" */
+#detail {
+    min-height: 1.5rem;
+    color: var(--muted);
+}
+
+/* Shake played on new faces and the total */
+.rolling {
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    25% {
+        transform: rotate(-8deg);
+    }
+
+    75% {
+        transform: rotate(8deg);
+    }
+}

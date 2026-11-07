@@ -1,0 +1,74 @@
+/* Styles for DieButton (die-button.js). */
+
+/* Row holding all the die buttons */
+.dice {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 760px;
+}
+
+button.die {
+    position: relative;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+button.die img {
+    display: block;
+    width: 88px;
+    height: 88px;
+}
+
+button.die:hover {
+    transform: translateY(-4px) scale(1.08);
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+button.die:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+button.die:active {
+    transform: scale(0.92);
+}
+
+button.die:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+}
+
+button.die.selected img {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
+}
+
+/* Count of this die in the pool; click it to remove one */
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: none;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 1.6rem;
+    border: 2px solid var(--bg);
+}
+
+button.die.selected .badge {
+    display: block;
+}
