@@ -4,7 +4,9 @@ A web dice roller for D&D: d4, d6, d8, d10, d12, d20 and d% (percentile).
 
 ## Run with Docker
     docker build -t dice-roller .
-    docker run --rm -p 8000:8000 dice-roller
+    docker run --rm --name dungeons -p 8000:8000 dice-roller
+
+Stop it with `docker stop dungeons`.
 
 Open http://localhost:8000
 
