@@ -21,6 +21,17 @@ app.get("/healthz", (_req, res) => {
 
 app.use(express.static(CLIENT_DIR));
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Dice roller listening on http://localhost:${PORT}`);
 });
+
+// `docker stop` sends SIGTERM (Ctrl+C sends SIGINT). As the container's main process, Node
+// ignores these unless handled, and Docker would kill it after 10 seconds. Close cleanly instead.
+function shutdown(signal: NodeJS.Signals): void {
+    console.log(`${signal} received, shutting down`);
+    server.close(() => process.exit(0));
+    server.closeAllConnections();
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

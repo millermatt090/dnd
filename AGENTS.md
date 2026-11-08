@@ -22,7 +22,9 @@ There is no Python app code. Do not reintroduce Python, FastAPI or plain-JS fron
 
 ```
 .
-├── conf/AGENTS.md      This file
+├── AGENTS.md           This file
+├── conf/
+│   └── docker-compose-template/dungeon.yaml   Runs the published image
 ├── Dockerfile
 ├── angular.json / package.json / tsconfig*.json / proxy.conf.json   Angular app (root)
 ├── scripts/            Asset generators (Python + Pillow). Git-ignored, not in Docker.
@@ -95,7 +97,7 @@ The UI is themed as a torch-lit D&D table: dungeon-stone background, leather dic
 parchment scroll for the selection, crimson buttons with gold trim, wax-seal badges, and a
 velvet-lined wooden dice tray with brass corners (`src/assets/board/board.jpg`).
 
-- All colours and fonts come from variables in `shared/theme.css`; add new ones there.
+- All colors and fonts come from variables in `shared/theme.css`; add new ones there.
 - Fonts are bundled with `@fontsource/*` packages (registered in `angular.json` `styles`),
   never loaded from an external CDN.
   - `--font-title` (Cinzel Decorative): the main heading only.
@@ -163,14 +165,33 @@ cd server && npm install && npm run dev       # http://localhost:8000
 # App (terminal 2, project root)
 npm install && npm start                      # http://localhost:4200, proxies /api to :8000
 
-# Production image
+# Production image from source
 docker build -t dice-roller .
-docker run --rm --name dungeons -p 8000:8000 dice-roller
+docker run --rm --name dungeon -p 8080:8000 dice-roller
+
+# Published image (what friends use; only dungeon.yaml is needed)
+docker compose -f conf/docker-compose-template/dungeon.yaml up -d dungeon
+docker stop dungeon
+docker start dungeon
 ```
 
-The container is always named **`dungeons`** and listens on port **8000**.
-If port 8000 is taken by the owner's running container, test on another port
-(e.g. `-p 8001:8000`) instead of stopping theirs.
+### Publishing
+
+`.github/workflows/publish-image.yml` builds on every push to `main` (and on `v*` tags) and
+publishes `ghcr.io/millermatt090/dnd` for `linux/amd64` and `linux/arm64`.
+The Dockerfile's build stages use `--platform=$BUILDPLATFORM` so only the copy-only runtime
+stage is built per architecture. This only works while the server's dependencies are pure
+JavaScript: if a native module is ever added, remove `--platform=$BUILDPLATFORM` from the
+server stage. `conf/docker-compose-template/dungeon.yaml` must keep working on its own, with no source code
+present (image only, no `build:`).
+
+The container is always named **`dungeon`** (Compose project and service are also `dungeon`)
+and is opened in the browser on host port **8080**. Inside the container (and in local dev) the
+server listens on **8000**; only the host side of the mapping is 8080. The server handles
+SIGTERM/SIGINT so `docker stop` is instant;
+keep that handler.
+If port 8080 is taken by the owner's running container, test on another port
+(e.g. `-p 8081:8000`) instead of stopping theirs.
 
 ## Verifying changes
 

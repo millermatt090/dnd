@@ -1,5 +1,9 @@
+# Build stages run on the build machine's own CPU ($BUILDPLATFORM): their output is
+# plain JavaScript and static files, so it works on every target platform. Only the
+# small runtime stage is built per platform (amd64, arm64), which keeps multi-arch builds fast.
+
 # ---- Build the Angular front end (project root) ----
-FROM node:24-alpine AS client-build
+FROM --platform=$BUILDPLATFORM node:24-alpine AS client-build
 WORKDIR /build
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -7,8 +11,8 @@ COPY angular.json tsconfig.json tsconfig.app.json ./
 COPY src ./src
 RUN npm run build
 
-# ---- Build the TypeScript server ----
-FROM node:24-alpine AS server-build
+# ---- Build the TypeScript server (its dependencies have no native code) ----
+FROM --platform=$BUILDPLATFORM node:24-alpine AS server-build
 WORKDIR /build/server
 COPY server/package.json server/package-lock.json ./
 RUN npm ci

@@ -3,13 +3,40 @@
 A web dice roller for D&D: d4, d6, d8, d10, d12, d20 and d% (percentile).
 Built with an Angular + TypeScript front end and a TypeScript (Express) API.
 
-## Run with Docker
+## Quick start (no code needed)
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it.
+2. Download [`dungeon.yaml`](conf/docker-compose-template/dungeon.yaml) into any folder:
+
+       curl -O https://raw.githubusercontent.com/millermatt090/dnd/main/conf/docker-compose-template/dungeon.yaml
+
+3. In that folder run:
+
+       docker compose -f dungeon.yaml up -d dungeon
+
+4. Open http://localhost:8080
+
+| Task | Command |
+|---|---|
+| Stop it | `docker stop dungeon` |
+| Start it again | `docker start dungeon` |
+| Update to the newest version | `docker compose -f dungeon.yaml pull` then `docker compose -f dungeon.yaml up -d dungeon` |
+| Remove it | `docker compose -f dungeon.yaml down` |
+| Use another port (e.g. 9000) | `PORT=9000 docker compose -f dungeon.yaml up -d dungeon` (PowerShell: `$env:PORT=9000; docker compose -f dungeon.yaml up -d dungeon`) |
+
+Works on Windows, macOS (Intel and Apple Silicon) and Linux.
+
+## Build and run from source
     docker build -t dice-roller .
-    docker run --rm --name dungeons -p 8000:8000 dice-roller
+    docker run --rm --name dungeon -p 8080:8000 dice-roller
 
-Stop it with `docker stop dungeons`.
+Then open http://localhost:8080
 
-Open http://localhost:8000
+Stop it with `docker stop dungeon`.
+
+## Publishing
+Every push to `main` builds the image for amd64 and arm64 and publishes it to
+`ghcr.io/millermatt090/dnd:latest` (see `.github/workflows/publish-image.yml`).
+Pushing a tag such as `v1.0.0` also publishes `:1.0.0` and `:1.0`.
 
 ## Develop locally
 Requires Node.js 24 LTS (or 22.22+). Run the server and the client in two terminals:
@@ -26,8 +53,14 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
 ## Project structure
 ```
 .
+├── .github/workflows/
+│   └── publish-image.yml         Builds and publishes the image to ghcr.io
+├── AGENTS.md                     Instructions for AI agents (single source of truth)
 ├── Dockerfile                    Builds the app and server, runs them in one image
 ├── angular.json                  Angular workspace config (the app lives at the root)
+├── conf/
+│   └── docker-compose-template/
+│       └── dungeon.yaml          Runs the published image (all a friend needs)
 ├── package.json                  Angular app dependencies
 ├── proxy.conf.json               Dev-server proxy to the API
 ├── scripts/                      Dev tools (git-ignored, not in the Docker image)
