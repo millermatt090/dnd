@@ -17,26 +17,44 @@ Built with an Angular + TypeScript front end and a TypeScript (Express) API.
 
 | Task | Command |
 |---|---|
-| Stop it | `docker stop dungeon` |
-| Start it again | `docker start dungeon` |
+| Stop it | `docker stop dnd` |
+| Start it again | `docker start dnd` |
 | Update to the newest version | `docker compose -f dungeon.yaml pull` then `docker compose -f dungeon.yaml up -d dungeon` |
 | Remove it | `docker compose -f dungeon.yaml down` |
+| Run a specific version (e.g. 1.1.0) | `TAG=1.1.0 docker compose -f dungeon.yaml up -d dungeon` |
 | Use another port (e.g. 9000) | `PORT=9000 docker compose -f dungeon.yaml up -d dungeon` (PowerShell: `$env:PORT=9000; docker compose -f dungeon.yaml up -d dungeon`) |
 
 Works on Windows, macOS (Intel and Apple Silicon) and Linux.
 
 ## Build and run from source
     docker build -t dice-roller .
-    docker run --rm --name dungeon -p 8080:8000 dice-roller
+    docker run --rm --name dnd -p 8080:8000 dice-roller
 
 Then open http://localhost:8080
 
-Stop it with `docker stop dungeon`.
+Stop it with `docker stop dnd`.
 
-## Publishing
-Every push to `main` builds the image for amd64 and arm64 and publishes it to
-`ghcr.io/millermatt090/dnd:latest` (see `.github/workflows/publish-image.yml`).
-Pushing a tag such as `v1.0.0` also publishes `:1.0.0` and `:1.0`.
+## Versions and publishing
+The project uses [Semantic Versioning](https://semver.org) (MAJOR.MINOR.PATCH); see [CHANGELOG.md](CHANGELOG.md).
+Images are built for amd64 and arm64 by `.github/workflows/publish-image.yml`:
+
+| Image tag | Points to |
+|---|---|
+| `1.0.0` | Exactly that release (what `dungeon.yaml` uses) |
+| `1.0` / `1` | The newest release in that line |
+| `latest` | The newest code on `main`, which may not be released yet |
+| `sha-<commit>` | One specific commit |
+
+Each release lives on its own branch, named after the version (e.g. `1.0.0`).
+Pushing that branch publishes the version's image tags. To release a new version:
+1. Create the branch: `git switch -c 1.1.0`
+2. Update `version` in `package.json` and `server/package.json`, the default `TAG` in
+   `conf/docker-compose-template/dungeon.yaml`, and add an entry to `CHANGELOG.md`.
+3. Commit and push the branch:
+
+       git push -u origin 1.1.0
+
+Once pushed, leave a version branch alone; put fixes in a new patch branch such as `1.0.1`.
 
 ## Develop locally
 Requires Node.js 24 LTS (or 22.22+). Run the server and the client in two terminals:
@@ -56,6 +74,7 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
 ├── .github/workflows/
 │   └── publish-image.yml         Builds and publishes the image to ghcr.io
 ├── AGENTS.md                     Instructions for AI agents (single source of truth)
+├── CHANGELOG.md                  Release notes for each version
 ├── Dockerfile                    Builds the app and server, runs them in one image
 ├── angular.json                  Angular workspace config (the app lives at the root)
 ├── conf/

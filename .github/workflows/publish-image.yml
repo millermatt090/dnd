@@ -1,8 +1,8 @@
 # Builds the Docker image and publishes it to GitHub Container Registry:
 #   ghcr.io/millermatt090/dnd
 #
-# - Every push to main publishes :latest (and :sha-<commit>).
-# - Pushing a tag like v1.2.0 also publishes :1.2.0 and :1.2.
+# - Every push to main publishes :latest (and :sha-<commit>). This is the newest, possibly unreleased, code.
+# - Every push to a version branch, named like 1.2.0, publishes :1.2.0, :1.2 and :1 (and :sha-<commit>).
 # - It can also be started by hand from the Actions tab.
 #
 # Images are built for Intel/AMD (linux/amd64) and ARM (linux/arm64, e.g. Apple Silicon Macs).
@@ -11,8 +11,9 @@ name: Publish image
 
 on:
   push:
-    branches: [main]
-    tags: ["v*"]
+    branches:
+      - main
+      - "[0-9]+.[0-9]+.[0-9]+" # version branches, e.g. 1.0.0
   workflow_dispatch:
 
 permissions:
@@ -51,8 +52,9 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{version}},value=${{ github.ref_name }},enable=${{ github.ref_name != 'main' }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ github.ref_name }},enable=${{ github.ref_name != 'main' }}
+            type=semver,pattern={{major}},value=${{ github.ref_name }},enable=${{ github.ref_name != 'main' }}
 
       - name: Build and push
         uses: docker/build-push-action@v7

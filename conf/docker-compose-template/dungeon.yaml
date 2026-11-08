@@ -1,19 +1,21 @@
 # Run the dice roller from the published image. Only this file is needed; no source code.
 #
 #   docker compose -f dungeon.yaml up -d dungeon    create and start it, then open http://localhost:8080
-#   docker stop dungeon                             stop it
-#   docker start dungeon                            start it again
+#   docker stop dnd                                 stop it
+#   docker start dnd                                start it again
 #   docker compose -f dungeon.yaml pull             fetch the newest version (then run "up -d" again)
 #   docker compose -f dungeon.yaml down             stop and remove it
 #
 # To use a different port, e.g. 9000:   PORT=9000 docker compose -f dungeon.yaml up -d dungeon
+# To run another version, e.g. 1.1.0:   TAG=1.1.0 docker compose -f dungeon.yaml up -d dungeon
+#   (TAG=latest runs the newest unreleased code from main)
 
 name: dungeon
 
 services:
   dungeon:
-    image: ghcr.io/millermatt090/dnd:latest
-    container_name: dungeon
+    image: ghcr.io/millermatt090/dnd:${TAG:-1.0.0}
+    container_name: dnd
     ports:
       - "${PORT:-8080}:8000" # browser port : port the server listens on inside the container
     restart: unless-stopped

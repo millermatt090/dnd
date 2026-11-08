@@ -167,25 +167,43 @@ npm install && npm start                      # http://localhost:4200, proxies /
 
 # Production image from source
 docker build -t dice-roller .
-docker run --rm --name dungeon -p 8080:8000 dice-roller
+docker run --rm --name dnd -p 8080:8000 dice-roller
 
 # Published image (what friends use; only dungeon.yaml is needed)
 docker compose -f conf/docker-compose-template/dungeon.yaml up -d dungeon
-docker stop dungeon
-docker start dungeon
+docker stop dnd
+docker start dnd
 ```
+
+### Versioning and releases
+
+Semantic Versioning, starting at **1.0.0**. MAJOR for breaking changes (e.g. a changed API or
+compose file that existing users must adapt to), MINOR for new features, PATCH for fixes.
+
+Releasing version X.Y.Z (only when the owner asks):
+1. Set `"version": "X.Y.Z"` in `package.json`, `server/package.json` and both lockfiles.
+2. Set the default image tag in `conf/docker-compose-template/dungeon.yaml` (`${TAG:-X.Y.Z}`).
+3. Add an `## [X.Y.Z] - YYYY-MM-DD` entry to `CHANGELOG.md` (plus its link at the bottom).
+4. Commit on a branch named exactly `X.Y.Z` (no `v` prefix) and push it:
+   `git switch -c X.Y.Z` then `git push -u origin X.Y.Z`.
+   Pushing the branch publishes image tags `X.Y.Z`, `X.Y` and `X`.
+
+Treat a pushed version branch as frozen: every push to it republishes `X.Y.Z`, so fixes go into
+a new PATCH branch (e.g. `1.0.1`) instead of changing a released one.
 
 ### Publishing
 
-`.github/workflows/publish-image.yml` builds on every push to `main` (and on `v*` tags) and
-publishes `ghcr.io/millermatt090/dnd` for `linux/amd64` and `linux/arm64`.
+`.github/workflows/publish-image.yml` builds on every push to `main` and to version branches,
+and publishes `ghcr.io/millermatt090/dnd` for `linux/amd64` and `linux/arm64`.
+Pushes to `main` update `latest`; pushes to a version branch (named `X.Y.Z`, e.g. `1.0.0`)
+publish image tags `X.Y.Z`, `X.Y` and `X`.
 The Dockerfile's build stages use `--platform=$BUILDPLATFORM` so only the copy-only runtime
 stage is built per architecture. This only works while the server's dependencies are pure
 JavaScript: if a native module is ever added, remove `--platform=$BUILDPLATFORM` from the
 server stage. `conf/docker-compose-template/dungeon.yaml` must keep working on its own, with no source code
 present (image only, no `build:`).
 
-The container is always named **`dungeon`** (Compose project and service are also `dungeon`)
+The container is always named **`dnd`** (the Compose project and service are named `dungeon`)
 and is opened in the browser on host port **8080**. Inside the container (and in local dev) the
 server listens on **8000**; only the host side of the mapping is 8080. The server handles
 SIGTERM/SIGINT so `docker stop` is instant;
