@@ -10,10 +10,10 @@
 # To run another version, e.g. 1.1.0:   TAG=1.1.0 docker compose -f dungeon.yaml up -d dungeon
 #   (TAG=latest runs the newest unreleased code from main)
 
-name: dungeon
+name: dnd
 
 services:
-  dungeon:
+  dnd:
     image: ghcr.io/millermatt090/dnd:${TAG:-1.0.0}
     container_name: dnd
     ports:
