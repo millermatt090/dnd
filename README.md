@@ -32,7 +32,7 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
 ├── proxy.conf.json               Dev-server proxy to the API
 ├── scripts/                      Dev tools (git-ignored, not in the Docker image)
 │   ├── generate_dice_assets.py   Draws the die face images
-│   ├── generate_board_asset.py   Draws the felt dice board
+│   ├── generate_board_asset.py   Draws the velvet dice tray
 │   └── requirements-dev.txt
 ├── server/                       TypeScript API (Express)
 │   └── src/
@@ -51,7 +51,7 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
         │   └── dice-pool.ts          Dice selected for the next roll (signals)
         ├── die-button/               Clickable die that adds/removes itself from the pool
         ├── pool-tray/                Selected dice summary with Roll and Clear buttons
-        ├── dice-board/               Felt board the dice are thrown onto
+        ├── dice-board/               Velvet dice tray the dice are thrown onto
         ├── rolling-die/              One die: tumbles, travels and lands on its result
         │   └── roll-path.ts          Shape of a die's path across the board
         ├── rolls/

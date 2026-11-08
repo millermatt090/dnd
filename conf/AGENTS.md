@@ -6,7 +6,7 @@ If another instruction file disagrees with this one, this file wins.
 ## Project
 
 A D&D dice roller web app. The user picks any mix of dice (d4, d6, d8, d10, d12, d20, d%),
-presses **Roll**, and the dice are thrown onto a felt board where they tumble and land on
+presses **Roll**, and the dice are thrown onto a velvet-lined dice tray where they tumble and land on
 their results. No numeric total is shown; only the dice on the board.
 
 | Part | Tech | Location |
@@ -88,6 +88,23 @@ One declaration per line, selector and `{` on the first line, `}` on its own lin
 
 Never write compact one-line rules such as `#detail { color: var(--muted); min-height: 1.5rem; }`.
 Use the colour variables from `shared/theme.css` instead of hard-coded colours.
+
+### Visual theme
+
+The UI is themed as a torch-lit D&D table: dungeon-stone background, leather dice shelf,
+parchment scroll for the selection, crimson buttons with gold trim, wax-seal badges, and a
+velvet-lined wooden dice tray with brass corners (`src/assets/board/board.jpg`).
+
+- All colours and fonts come from variables in `shared/theme.css`; add new ones there.
+- Fonts are bundled with `@fontsource/*` packages (registered in `angular.json` `styles`),
+  never loaded from an external CDN.
+  - `--font-title` (Cinzel Decorative): the main heading only.
+  - `--font-heading` (Cinzel): labels and buttons. It is all-caps and its "1" looks like "I",
+    so **never use it for numbers**.
+  - `--font-body` (IM Fell English): flavour text and messages.
+  - `--font-numbers` (Libre Baskerville): anything showing digits, such as dice notation or badges.
+- Flavour text may use light old-style wording ("Choose thy dice…"), but controls and
+  numbers must stay plain and unambiguous.
 
 ### TypeScript style
 

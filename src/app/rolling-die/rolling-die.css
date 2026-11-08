@@ -22,13 +22,13 @@ img {
 :host(.crit) img {
     filter:
         drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55))
-        drop-shadow(0 0 12px var(--crit));
+        drop-shadow(0 0 14px var(--crit));
 }
 
 :host(.fumble) img {
     filter:
         drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55))
-        drop-shadow(0 0 12px var(--accent));
+        drop-shadow(0 0 14px var(--fumble));
 }
 
 /* Small bump as the die comes to rest */

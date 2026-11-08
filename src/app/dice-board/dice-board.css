@@ -2,16 +2,20 @@
     position: relative;
     display: block;
     width: 100%;
-    max-width: 760px;
+    max-width: 800px;
     aspect-ratio: 16 / 10;
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
     overflow: hidden;
     background: url("/assets/board/board.jpg") center / cover no-repeat;
-    border-radius: 14px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+    border: 2px solid var(--gold-dark);
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.8),
+        0 18px 40px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(214, 140, 52, 0.12);
 }
 
-/* Hint before the first roll, or an error message */
+/* Prompt before the first roll, or an error message */
 .board-message {
     position: absolute;
     inset: 0;
@@ -19,7 +23,12 @@
     align-items: center;
     justify-content: center;
     margin: 0;
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.55);
+    padding: 0 2rem;
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-style: italic;
+    text-align: center;
+    color: rgba(239, 227, 200, 0.6);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
     pointer-events: none;
 }

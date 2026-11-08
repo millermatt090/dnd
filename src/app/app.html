@@ -1,12 +1,21 @@
-<h1>🎲 Dice Roller</h1>
+<header class="title-block">
+    <p class="eyebrow">Ye Olde</p>
+    <h1>Dice Tower</h1>
+    <div class="flourish" aria-hidden="true">
+        <span class="line"></span>
+        <span class="gem">◆</span>
+        <span class="line"></span>
+    </div>
+    <p class="hint">Choose thy dice, then cast them upon the table.</p>
+</header>
 
-<p class="hint">Click dice to add them, then roll them all at once.</p>
-
-<div class="dice">
-    @for (die of dieOrder; track die) {
-        <app-die-button [die]="die" />
-    }
-</div>
+<section class="shelf" aria-label="Dice">
+    <div class="dice">
+        @for (die of dieOrder; track die) {
+            <app-die-button [die]="die" />
+        }
+    </div>
+</section>
 
 <app-pool-tray (roll)="roll()" />
 

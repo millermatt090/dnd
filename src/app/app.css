@@ -4,14 +4,80 @@
     align-items: center;
 }
 
+/* Title */
+
+.title-block {
+    margin-bottom: 1.75rem;
+    text-align: center;
+}
+
+.eyebrow {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
 h1 {
-    margin: 0 0 1.5rem;
-    letter-spacing: 0.05em;
+    margin: 0.1rem 0 0;
+    font-family: var(--font-title);
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 55%, var(--gold-dark) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.6));
+}
+
+.flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0.6rem auto 0.8rem;
+    color: var(--gold);
+}
+
+.flourish .line {
+    width: min(160px, 25vw);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.flourish .gem {
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    text-shadow: 0 0 6px rgba(200, 58, 42, 0.8);
 }
 
 .hint {
-    margin: 0 0 1rem;
+    margin: 0;
+    font-size: 1.15rem;
+    font-style: italic;
     color: var(--muted);
+}
+
+/* Dice shelf */
+
+.shelf {
+    width: 100%;
+    max-width: 800px;
+    padding: 1.25rem 1rem 1rem;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.25)),
+        var(--leather);
+    border: 2px solid var(--gold-dark);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 0 0 1px rgba(242, 217, 138, 0.15),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.35),
+        0 10px 24px rgba(0, 0, 0, 0.5);
 }
 
 /* Row holding all the die buttons */
@@ -20,6 +86,4 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    width: 100%;
-    max-width: 760px;
 }

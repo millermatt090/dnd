@@ -50,7 +50,7 @@ function clamp(value: number, min: number, max: number): number {
 })
 export class DiceBoard {
     protected readonly dice = signal<BoardDie[]>([]);
-    protected readonly message = signal<string | null>("Pick some dice and press Roll");
+    protected readonly message = signal<string | null>("The table awaits thy roll");
     protected readonly status = signal("");
     protected readonly animate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

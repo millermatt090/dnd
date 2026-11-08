@@ -25,6 +25,12 @@
               }
             ],
             "styles": [
+              "@fontsource/cinzel/600.css",
+              "@fontsource/cinzel/700.css",
+              "@fontsource/cinzel-decorative/700.css",
+              "@fontsource/im-fell-english/400.css",
+              "@fontsource/im-fell-english/400-italic.css",
+              "@fontsource/libre-baskerville/700.css",
               "src/app/shared/theme.css",
               "src/app/shared/base.css"
             ]
