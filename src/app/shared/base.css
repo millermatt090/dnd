@@ -1,4 +1,4 @@
-/* Page-wide defaults and layout. */
+/* Page-wide defaults. */
 * {
     box-sizing: border-box;
 }
@@ -9,19 +9,6 @@ body {
     font-family: system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-h1 {
-    margin: 0 0 1.5rem;
-    letter-spacing: 0.05em;
-}
-
-.hint {
-    margin: 0 0 1rem;
-    color: var(--muted);
 }
 
 /* Hidden on screen but still read by screen readers */

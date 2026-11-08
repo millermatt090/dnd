@@ -1,0 +1,18 @@
+<button
+    type="button"
+    class="die"
+    [class.selected]="count() > 0"
+    [disabled]="disabled()"
+    [attr.data-die]="die()"
+    [title]="'Add ' + label()"
+    (click)="add()"
+    (contextmenu)="removeOne($event)"
+>
+    <img [src]="icon()" [alt]="label()" draggable="false">
+
+    @if (count() > 0) {
+        <span class="badge" [title]="'Remove one ' + label()" (click)="removeOne($event)">
+            {{ count() }}
+        </span>
+    }
+</button>

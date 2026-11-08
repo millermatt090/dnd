@@ -1,6 +1,7 @@
 # Dice Roller
 
 A web dice roller for D&D: d4, d6, d8, d10, d12, d20 and d% (percentile).
+Built with an Angular + TypeScript front end and a TypeScript (Express) API.
 
 ## Run with Docker
     docker build -t dice-roller .
@@ -10,44 +11,61 @@ Stop it with `docker stop dungeons`.
 
 Open http://localhost:8000
 
+## Develop locally
+Requires Node.js 24 LTS (or 22.22+). Run the server and the client in two terminals:
+
+    cd server
+    npm install
+    npm run dev          # API on http://localhost:8000, restarts on save
+
+    npm install          # from the project root
+    npm start            # app on http://localhost:4200, reloads on save
+
+The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.json`).
+
 ## Project structure
 ```
 .
-├── Dockerfile
-├── requirements.txt              Python runtime dependencies
-├── scripts/                      Dev tools (not included in the Docker image)
+├── Dockerfile                    Builds the app and server, runs them in one image
+├── angular.json                  Angular workspace config (the app lives at the root)
+├── package.json                  Angular app dependencies
+├── proxy.conf.json               Dev-server proxy to the API
+├── scripts/                      Dev tools (git-ignored, not in the Docker image)
 │   ├── generate_dice_assets.py   Draws the die face images
 │   ├── generate_board_asset.py   Draws the felt dice board
 │   └── requirements-dev.txt
-└── src/
-    ├── main.py                   FastAPI backend: roll API, serves the front end
+├── server/                       TypeScript API (Express)
+│   └── src/
+│       ├── main.ts               Starts the server, serves the built client
+│       ├── dice/dice.ts          Dice definitions and fair rolling
+│       └── roll/roll-routes.ts   /api/roll endpoints
+└── src/                          Angular app
+    ├── index.html
+    ├── main.ts                   Bootstraps the app
     ├── assets/                   Die faces (<die>/<face>.png) and board/board.jpg
-    └── app/                      Front end (served at /app)
-        ├── index.html
-        ├── main.js               Entry point: creates and wires the components
-        ├── dice.js               Shared dice constants and labels
+    └── app/
+        ├── app.ts / .html / .css     Root component: page layout and rolling
+        ├── app.config.ts             App-wide providers (HTTP client)
+        ├── dice.ts                   Shared dice constants and helpers
         ├── dice/
-        │   └── dice-pool.js      Dice selected for the next roll
-        ├── die-button/
-        │   ├── die-button.js     Clickable die that adds/removes itself from the pool
-        │   └── die-button.css
-        ├── pool-tray/
-        │   ├── pool-tray.js      Selected dice summary with Roll and Clear buttons
-        │   └── pool-tray.css
-        ├── dice-board/
-        │   ├── dice-board.js     Felt board the dice are thrown onto
-        │   ├── rolling-die.js    One die: tumbles, travels and lands on its result
-        │   └── dice-board.css
+        │   └── dice-pool.ts          Dice selected for the next roll (signals)
+        ├── die-button/               Clickable die that adds/removes itself from the pool
+        ├── pool-tray/                Selected dice summary with Roll and Clear buttons
+        ├── dice-board/               Felt board the dice are thrown onto
+        ├── rolling-die/              One die: tumbles, travels and lands on its result
+        │   └── roll-path.ts          Shape of a die's path across the board
         ├── rolls/
-        │   ├── die-roll.js       Result of one standard die
-        │   ├── percentile-roll.js  Result of a d% roll (tens + ones)
-        │   └── roll-result.js    All rolls from one Roll press
+        │   ├── roll-response.ts      JSON shapes returned by the API
+        │   ├── die-roll.ts           Result of one standard die
+        │   ├── percentile-roll.ts    Result of a d% roll (tens + ones)
+        │   └── roll-result.ts        All rolls from one Roll press
         ├── api/
-        │   └── dice-api.js       Calls the backend roll endpoint
+        │   └── dice-api.ts           Calls the backend roll endpoint
         └── shared/
-            ├── theme.css         Colour variables
-            └── base.css          Page-wide defaults
+            ├── theme.css             Colour variables
+            └── base.css              Page-wide defaults
 ```
+Each component folder holds its `.ts`, `.html` and `.css` files.
 
 ## API
     GET /api/roll?dice=d20&dice=d4     roll a mixed set (1..20 dice)

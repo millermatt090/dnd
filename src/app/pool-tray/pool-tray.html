@@ -1,0 +1,27 @@
+<div class="tray">
+    <div id="pool-summary">
+        {{ pool.isEmpty() ? "No dice selected" : pool.notation() }}
+    </div>
+
+    <div class="tray-actions">
+        <button
+            type="button"
+            id="roll-button"
+            class="action primary"
+            [disabled]="pool.isEmpty()"
+            (click)="roll.emit()"
+        >
+            Roll
+        </button>
+
+        <button
+            type="button"
+            id="clear-button"
+            class="action"
+            [disabled]="pool.isEmpty()"
+            (click)="pool.clear()"
+        >
+            Clear
+        </button>
+    </div>
+</div>

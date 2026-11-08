@@ -1,0 +1,16 @@
+@if (message(); as text) {
+    <p id="board-message" class="board-message">{{ text }}</p>
+}
+
+<!-- Read out by screen readers; not shown on screen -->
+<p id="board-status" class="sr-only" aria-live="polite">{{ status() }}</p>
+
+@for (die of dice(); track die.id) {
+    <app-rolling-die
+        [face]="die.face"
+        [path]="die.path"
+        [size]="die.size"
+        [critClass]="die.critClass"
+        [animate]="animate"
+    />
+}

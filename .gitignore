@@ -1,2 +1,8 @@
 # Local dev tools (asset generator); not part of the app
 /scripts/
+
+# Installed packages and build output
+node_modules/
+dist/
+out-tsc/
+.angular/

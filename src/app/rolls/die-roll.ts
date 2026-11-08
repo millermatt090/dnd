@@ -1,16 +1,25 @@
-import { faceSrc } from "../dice.js";
+import { Die, faceSrc } from "../dice";
+
+export type CritClass = "" | "crit" | "fumble";
+
+// One physical die that lands on the board.
+export interface DieFace {
+    die: Die;
+    src: string;
+    alt: string;
+}
 
 /**
  * The result of rolling one standard die (d4 through d20).
  */
 export class DieRoll {
-    constructor({ die, value }) {
-        this.die = die;
-        this.value = value;
-    }
+    constructor(
+        readonly die: Die,
+        readonly value: number,
+    ) {}
 
     // "crit" for a natural 20 on a d20, "fumble" for a natural 1, otherwise "".
-    get critClass() {
+    get critClass(): CritClass {
         if (this.die !== "d20") {
             return "";
         }
@@ -23,8 +32,7 @@ export class DieRoll {
         return "";
     }
 
-    // The physical dice that land on the board: [{ die, src, alt }].
-    faces() {
+    faces(): DieFace[] {
         return [
             {
                 die: this.die,
@@ -34,7 +42,7 @@ export class DieRoll {
         ];
     }
 
-    describe() {
+    describe(): string {
         return `${this.die} ${this.value}`;
     }
 }

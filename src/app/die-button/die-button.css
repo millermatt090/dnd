@@ -1,13 +1,5 @@
-/* Styles for DieButton (die-button.js). */
-
-/* Row holding all the die buttons */
-.dice {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-    max-width: 760px;
+:host {
+    display: block;
 }
 
 button.die {
@@ -56,7 +48,6 @@ button.die.selected img {
     position: absolute;
     top: -6px;
     right: -6px;
-    display: none;
     min-width: 1.6rem;
     height: 1.6rem;
     padding: 0 0.4rem;
@@ -67,8 +58,4 @@ button.die.selected img {
     font-weight: bold;
     line-height: 1.6rem;
     border: 2px solid var(--bg);
-}
-
-button.die.selected .badge {
-    display: block;
 }

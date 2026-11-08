@@ -1,0 +1,43 @@
+/* Positioned by the Web Animations API; starts off the board until it is thrown */
+:host {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-200%);
+    will-change: transform;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    filter: drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55));
+}
+
+:host(.landed) img {
+    animation: settle 0.25s ease-out;
+}
+
+:host(.crit) img {
+    filter:
+        drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55))
+        drop-shadow(0 0 12px var(--crit));
+}
+
+:host(.fumble) img {
+    filter:
+        drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55))
+        drop-shadow(0 0 12px var(--accent));
+}
+
+/* Small bump as the die comes to rest */
+@keyframes settle {
+    0% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

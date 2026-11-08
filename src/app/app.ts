@@ -1,0 +1,32 @@
+import { Component, inject, viewChild } from "@angular/core";
+
+import { DiceApi } from "./api/dice-api";
+import { DiceBoard } from "./dice-board/dice-board";
+import { DicePool } from "./dice/dice-pool";
+import { DIE_ORDER } from "./dice";
+import { DieButton } from "./die-button/die-button";
+import { PoolTray } from "./pool-tray/pool-tray";
+
+@Component({
+    selector: "app-root",
+    imports: [DieButton, PoolTray, DiceBoard],
+    templateUrl: "./app.html",
+    styleUrl: "./app.css",
+})
+export class App {
+    protected readonly dieOrder = DIE_ORDER;
+
+    private readonly pool = inject(DicePool);
+    private readonly api = inject(DiceApi);
+    private readonly board = viewChild.required(DiceBoard);
+
+    protected async roll(): Promise<void> {
+        try {
+            const result = await this.api.roll(this.pool.dice());
+            this.board().throw(result);
+            this.pool.clear(); // start each roll with a fresh selection
+        } catch (error) {
+            this.board().showError(error instanceof Error ? error.message : "Roll failed");
+        }
+    }
+}

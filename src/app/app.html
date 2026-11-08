@@ -1,0 +1,13 @@
+<h1>🎲 Dice Roller</h1>
+
+<p class="hint">Click dice to add them, then roll them all at once.</p>
+
+<div class="dice">
+    @for (die of dieOrder; track die) {
+        <app-die-button [die]="die" />
+    }
+</div>
+
+<app-pool-tray (roll)="roll()" />
+
+<app-dice-board id="board" />
