@@ -5,9 +5,12 @@ If another instruction file disagrees with this one, this file wins.
 
 ## Project
 
-A D&D dice roller web app. The user picks any mix of dice (d4, d6, d8, d10, d12, d20, d%),
-presses **Roll**, and the dice are thrown onto a velvet-lined dice tray where they tumble and land on
-their results. No numeric total is shown; only the dice on the board.
+A D&D dice roller web app with two tabs:
+- **Dice Tower:** the user picks any mix of dice (d4, d6, d8, d10, d12, d20, d%), presses **Roll**,
+  and the dice are thrown onto a velvet-lined dice tray where they tumble and land on their results.
+  No numeric total is shown; only the dice on the board.
+- **Spell Slots:** the user sets how many spell slots they have at each level (1st-9th), spends and
+  recovers them by clicking gems, and restores them all with a long rest.
 
 | Part | Tech | Location |
 |---|---|---|
@@ -38,9 +41,10 @@ There is no Python app code. Do not reintroduce Python, FastAPI or plain-JS fron
     ├── main.ts
     ├── assets/         <die>/<face>.png and board/board.jpg
     └── app/
-        ├── app.ts / app.html / app.css   Root component
+        ├── app.ts / app.html / app.css   Root component: title and the two tabs
         ├── app.config.ts
         ├── dice.ts                        Shared dice constants and helpers
+        ├── dice-view/       component: the Dice Tower tab (shelf, tray, board, rolling)
         ├── dice/            dice-pool.ts (selection state)
         ├── die-button/      component
         ├── pool-tray/       component
@@ -49,6 +53,10 @@ There is no Python app code. Do not reintroduce Python, FastAPI or plain-JS fron
         ├── rolling-die/     component (+ roll-path.ts)
         ├── rolls/           roll models and API response types
         ├── api/             dice-api.ts (HTTP service)
+        ├── spell/           everything for the Spell Slots tab:
+        │   ├── spellbook/       component: the tab page
+        │   ├── slot-tracker/    component: slot gems, Set slots mode, Long rest
+        │   └── spell-slots/     slot-store.ts (slot totals and spent slots, saved to localStorage)
         └── shared/          theme.css, base.css (global styles)
 ```
 
@@ -59,9 +67,11 @@ moved or removed.
 
 These come directly from the project owner. Follow them from the first draft.
 
-1. **Organise by feature, not by file type.** Each component gets its own folder under
-   `src/app/` containing that component's files and nothing else
-   (e.g. `die-button/die-button.ts`, `.html`, `.css`).
+1. **Organise by feature, not by file type.** Each component gets its own folder
+   containing that component's files and nothing else (e.g. `die-button/die-button.ts`,
+   `.html`, `.css`). Components and services that belong to one feature area are grouped
+   under a feature folder (e.g. `src/app/spell/` holds `spellbook/`, `slot-tracker/` and
+   `spell-slots/`); new feature areas should get their own folder the same way.
 2. **HTML, CSS and TypeScript are always separate files.** Use `templateUrl` and `styleUrl`.
    No inline templates, no inline `styles`, no `<style>` or `<script>` blocks in HTML.
 3. **A component's styles live with that component.** Never create one big stylesheet.
@@ -134,6 +144,17 @@ velvet-lined wooden dice tray with brass corners (`src/assets/board/board.jpg`).
 - A natural 20 / natural 1 on a kept d20 glows green / orange on the board (discarded dice never glow).
 - Respect `prefers-reduced-motion`: dice are placed without animation.
 - Results are announced to screen readers via a visually hidden live region.
+
+### Spell slots
+
+- The tracker is deliberately **not character-aware**: no classes, levels or rules lookups.
+  The player sets their own slot totals per level (0-9 each) in "Set slots" mode.
+- Clicking an available gem spends a slot; clicking a spent gem recovers one. **Long rest**
+  restores every slot. Lowering a total below the spent count caps the spent count.
+- State lives only in the browser (`localStorage`, key `dice-tower.spell-slots.v1`); there is no
+  server API for it.
+- Both tabs stay mounted and are hidden with `[hidden]` (see `shared/base.css`), so dice on the
+  board survive switching tabs.
 
 ### API
 

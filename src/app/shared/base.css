@@ -41,6 +41,11 @@ body {
     color: var(--parchment);
 }
 
+/* [hidden] must win over component styles that set display (e.g. :host { display: flex }) */
+[hidden] {
+    display: none !important;
+}
+
 /* Hidden on screen but still read by screen readers */
 .sr-only {
     position: absolute;

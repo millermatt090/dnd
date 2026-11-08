@@ -1,6 +1,7 @@
 # Dice Roller
 
-A web dice roller for D&D: d4, d6, d8, d10, d12, d20 and d% (percentile).
+A web dice roller for D&D: d4, d6, d8, d10, d12, d20 and d% (percentile), with
+advantage / disadvantage and a spell slot tracker.
 Built with an Angular + TypeScript front end and a TypeScript (Express) API.
 
 ## Quick start (no code needed)
@@ -96,7 +97,8 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
     ├── main.ts                   Bootstraps the app
     ├── assets/                   Die faces (<die>/<face>.png) and board/board.jpg
     └── app/
-        ├── app.ts / .html / .css     Root component: page layout and rolling
+        ├── app.ts / .html / .css     Root component: title and Dice Tower / Spell Slots tabs
+        ├── dice-view/                The Dice Tower tab: shelf, selection bar, board, rolling
         ├── app.config.ts             App-wide providers (HTTP client)
         ├── dice.ts                   Shared dice constants and helpers
         ├── dice/
@@ -115,6 +117,11 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
         │   └── roll-result.ts        All rolls from one Roll press
         ├── api/
         │   └── dice-api.ts           Calls the backend roll endpoint
+        ├── spell/                    Everything for the Spell Slots tab
+        │   ├── spellbook/            The tab page
+        │   ├── slot-tracker/         Slot gems per level, "Set slots" mode and Long rest
+        │   └── spell-slots/
+        │       └── slot-store.ts     Slot totals and spent slots, saved in the browser
         └── shared/
             ├── theme.css             Colour variables
             └── base.css              Page-wide defaults

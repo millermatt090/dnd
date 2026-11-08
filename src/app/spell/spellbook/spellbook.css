@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.hint {
+    margin: 0 0 1.25rem;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--muted);
+}
+
+/* Leather-bound book holding the parchment page */
+.tome {
+    width: 100%;
+    max-width: 560px;
+    padding: 1.25rem;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.25)),
+        var(--leather);
+    border: 2px solid var(--gold-dark);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 0 0 1px rgba(242, 217, 138, 0.15),
+        0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.note {
+    margin: 0.9rem 0 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--muted);
+    text-align: center;
+}

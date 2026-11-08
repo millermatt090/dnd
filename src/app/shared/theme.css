@@ -22,6 +22,12 @@
     --crit: #3ddc84;
     --fumble: #ff7a3d;
     --advantage: #2e6b3c;
+    /* Spell slot gems */
+    --arcane: #5b8def;
+    --arcane-light: #cfe0ff;
+    --arcane-dark: #1f3f8a;
+    --arcane-edge: #16306b;
+    --arcane-glow: rgba(120, 170, 255, 0.65);
 
     /* Text on dark backgrounds */
     --text: #efe3c8;

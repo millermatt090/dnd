@@ -1,0 +1,68 @@
+<div class="page">
+    <h3>
+        Spell Slots
+        <button
+            type="button"
+            id="set-slots"
+            class="ink-button small"
+            [class.active]="setting()"
+            [attr.aria-pressed]="setting()"
+            (click)="setting.set(!setting())"
+        >
+            {{ setting() ? "Done" : "Set slots" }}
+        </button>
+    </h3>
+
+    @if (setting()) {
+        <p class="tip">Choose how many slots you have at each level.</p>
+    }
+
+    @for (row of rows(); track row.index) {
+        <div class="slot-row" [attr.data-level]="row.index + 1">
+            <span class="slot-level">{{ row.label }}</span>
+
+            <div class="gems">
+                @for (available of row.gems; track $index) {
+                    <button
+                        type="button"
+                        class="gem"
+                        [class.spent]="!available"
+                        [attr.aria-label]="row.label + ' level slot, ' + (available ? 'available: click to spend' : 'spent: click to recover')"
+                        (click)="toggle(row, available)"
+                    ></button>
+                }
+            </div>
+
+            @if (setting()) {
+                <div class="stepper">
+                    <button
+                        type="button"
+                        class="step"
+                        [attr.aria-label]="'One fewer ' + row.label + ' level slot'"
+                        [disabled]="row.total === 0"
+                        (click)="store.changeTotal(row.index, -1)"
+                    >−</button>
+                    <span class="count">{{ row.total }}</span>
+                    <button
+                        type="button"
+                        class="step"
+                        [attr.aria-label]="'One more ' + row.label + ' level slot'"
+                        [disabled]="row.total === maxPerLevel"
+                        (click)="store.changeTotal(row.index, 1)"
+                    >+</button>
+                </div>
+            } @else {
+                <span class="count">{{ row.available }}/{{ row.total }}</span>
+            }
+        </div>
+    }
+
+    @if (!setting()) {
+        <div class="footer">
+            <p class="tip">Click a gem to spend a slot; click a spent gem to get it back.</p>
+            <button type="button" id="long-rest" class="ink-button" (click)="store.longRest()">
+                Long rest
+            </button>
+        </div>
+    }
+</div>

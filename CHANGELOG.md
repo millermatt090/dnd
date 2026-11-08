@@ -3,6 +3,13 @@
 All notable changes to this project are listed here.
 Versions follow [Semantic Versioning](https://semver.org): MAJOR.MINOR.PATCH.
 
+## [Unreleased]
+
+### Added
+- Spell Slots tab: set how many slots you have at each level (1st-9th), click gems to spend or
+  recover slots, and restore everything with a long rest. Saved in the browser.
+- Dice Tower / Spell Slots tabs under the title.
+
 ## [1.0.0] - 2026-11-07
 
 First release.

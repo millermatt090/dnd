@@ -1,32 +1,22 @@
-import { Component, inject, viewChild } from "@angular/core";
+import { Component, signal } from "@angular/core";
 
-import { DiceApi } from "./api/dice-api";
-import { DiceBoard } from "./dice-board/dice-board";
-import { DicePool } from "./dice/dice-pool";
-import { DIE_ORDER } from "./dice";
-import { DieButton } from "./die-button/die-button";
-import { PoolTray } from "./pool-tray/pool-tray";
+import { DiceView } from "./dice-view/dice-view";
+import { Spellbook } from "./spell/spellbook/spellbook";
+
+type View = "dice" | "spells";
 
 @Component({
     selector: "app-root",
-    imports: [DieButton, PoolTray, DiceBoard],
+    imports: [DiceView, Spellbook],
     templateUrl: "./app.html",
     styleUrl: "./app.css",
 })
 export class App {
-    protected readonly dieOrder = DIE_ORDER;
+    protected readonly views: { id: View; label: string }[] = [
+        { id: "dice", label: "Dice Tower" },
+        { id: "spells", label: "Spell Slots" },
+    ];
 
-    private readonly pool = inject(DicePool);
-    private readonly api = inject(DiceApi);
-    private readonly board = viewChild.required(DiceBoard);
-
-    protected async roll(): Promise<void> {
-        try {
-            const result = await this.api.roll(this.pool.dice(), this.pool.mode());
-            this.board().throw(result);
-            this.pool.clear(); // start each roll with a fresh selection
-        } catch (error) {
-            this.board().showError(error instanceof Error ? error.message : "Roll failed");
-        }
-    }
+    // Both views stay alive when hidden, so dice on the board survive a trip to the spellbook.
+    protected readonly view = signal<View>("dice");
 }

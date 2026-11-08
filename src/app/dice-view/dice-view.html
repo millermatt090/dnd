@@ -1,0 +1,13 @@
+<p class="hint">Choose thy dice, then cast them upon the table.</p>
+
+<section class="shelf" aria-label="Dice">
+    <div class="dice">
+        @for (die of dieOrder; track die) {
+            <app-die-button [die]="die" />
+        }
+    </div>
+</section>
+
+<app-pool-tray (roll)="roll()" />
+
+<app-dice-board id="board" />

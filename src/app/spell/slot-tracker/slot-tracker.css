@@ -1,0 +1,170 @@
+:host {
+    display: block;
+}
+
+/* Parchment page */
+.page {
+    padding: 1rem 1.2rem;
+    color: var(--ink);
+    background:
+        radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(120, 80, 30, 0.3) 100%),
+        linear-gradient(180deg, var(--parchment) 0%, #e2cc98 100%);
+    border-radius: 6px;
+    box-shadow:
+        inset 0 0 16px rgba(120, 80, 30, 0.4),
+        0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem;
+    padding-bottom: 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(43, 26, 14, 0.35);
+}
+
+.ink-button {
+    padding: 0.4rem 0.9rem;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.ink-button.small {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+}
+
+.ink-button:hover:not(.active) {
+    background: rgba(43, 26, 14, 0.1);
+}
+
+.ink-button:focus-visible {
+    outline: 2px solid var(--gold-dark);
+    outline-offset: 2px;
+}
+
+.ink-button.active {
+    color: var(--parchment);
+    background: var(--ink);
+}
+
+.tip {
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: rgba(43, 26, 14, 0.75);
+}
+
+.slot-row {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.4rem;
+    border-bottom: 1px dotted rgba(43, 26, 14, 0.3);
+}
+
+/* Level labels and counts show digits, so they use the numbers font */
+.slot-level,
+.count {
+    font-family: var(--font-numbers);
+    font-weight: 700;
+}
+
+.slot-level {
+    font-size: 0.95rem;
+}
+
+.count {
+    min-width: 2.4rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.gems {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding-left: 0.2rem;
+}
+
+/* A glowing arcane gem; a spent one is an empty socket */
+button.gem {
+    width: 1.15rem;
+    height: 1.15rem;
+    padding: 0;
+    rotate: 45deg;
+    background: radial-gradient(circle at 35% 30%, var(--arcane-light), var(--arcane) 55%, var(--arcane-dark));
+    border: 1.5px solid var(--arcane-edge);
+    border-radius: 3px;
+    box-shadow: 0 0 8px var(--arcane-glow);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button.gem:hover {
+    transform: scale(1.15);
+}
+
+button.gem:focus-visible {
+    outline: 2px solid var(--gold-dark);
+    outline-offset: 3px;
+}
+
+button.gem.spent {
+    background: rgba(43, 26, 14, 0.08);
+    border: 1.5px dashed rgba(43, 26, 14, 0.5);
+    box-shadow: none;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+button.step {
+    width: 1.7rem;
+    height: 1.7rem;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid rgba(43, 26, 14, 0.5);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.step:hover:not(:disabled) {
+    background: rgba(43, 26, 14, 0.1);
+}
+
+button.step:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-top: 0.6rem;
+}

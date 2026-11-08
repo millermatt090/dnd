@@ -6,17 +6,23 @@
         <span class="gem">◆</span>
         <span class="line"></span>
     </div>
-    <p class="hint">Choose thy dice, then cast them upon the table.</p>
 </header>
 
-<section class="shelf" aria-label="Dice">
-    <div class="dice">
-        @for (die of dieOrder; track die) {
-            <app-die-button [die]="die" />
-        }
-    </div>
-</section>
+<nav class="tabs" aria-label="Views">
+    @for (tab of views; track tab.id) {
+        <button
+            type="button"
+            class="tab"
+            [class.active]="view() === tab.id"
+            [attr.aria-current]="view() === tab.id ? 'page' : null"
+            [attr.data-view]="tab.id"
+            (click)="view.set(tab.id)"
+        >
+            {{ tab.label }}
+        </button>
+    }
+</nav>
 
-<app-pool-tray (roll)="roll()" />
+<app-dice-view [hidden]="view() !== 'dice'" />
 
-<app-dice-board id="board" />
+<app-spellbook [hidden]="view() !== 'spells'" />
