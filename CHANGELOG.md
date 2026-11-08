@@ -13,6 +13,9 @@ First release.
   resets after each roll.
 - Dice are thrown onto a velvet-lined dice tray, tumble through random faces and land on
   their results. A natural 20 or natural 1 on a d20 glows.
+- Advantage and disadvantage for d20 rolls: pick the mode in the selection bar, each d20 is
+  rolled twice and the higher (advantage) or lower (disadvantage) result is kept. Both dice
+  land on the tray and the discarded one fades out. The mode resets after each roll.
 - d% is rolled like the physical pair: a tens die (00-90) plus a ones die (0-9).
 - Fair rolls made on the server with a cryptographically secure random number generator.
 - D&D-themed interface: torch-lit stone, parchment, gold trim and fantasy lettering.
@@ -20,6 +23,7 @@ First release.
 
 ### Running
 - Angular 22 + TypeScript front end and Express TypeScript API in one Docker image.
+- Roll API with an optional `mode=advantage|disadvantage` parameter.
 - Published to `ghcr.io/millermatt090/dnd` for Intel/AMD and ARM.
 - `conf/docker-compose-template/dungeon.yaml` runs it with `docker compose -f dungeon.yaml up -d dungeon`
   on http://localhost:8080.

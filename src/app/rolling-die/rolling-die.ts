@@ -36,6 +36,7 @@ function transform({ x, y }: Point, angle: number, scale: number): string {
         "[class.landed]": "landed()",
         "[class.crit]": "landed() && critClass() === 'crit'",
         "[class.fumble]": "landed() && critClass() === 'fumble'",
+        "[class.discarded]": "landed() && !!face().discarded",
         "[style.width.px]": "size()",
         "[style.height.px]": "size()",
     },

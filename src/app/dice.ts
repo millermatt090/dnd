@@ -5,6 +5,15 @@ export const DIE_ORDER = ["d4", "d6", "d8", "d10", "d12", "d20", "d100"] as cons
 
 export type Die = (typeof DIE_ORDER)[number];
 
+// Advantage / disadvantage apply to d20s: roll two, keep the higher / lower.
+export const ROLL_MODES = ["normal", "advantage", "disadvantage"] as const;
+
+export type RollMode = (typeof ROLL_MODES)[number];
+
+export function rollModeLabel(mode: RollMode): string {
+    return mode.charAt(0).toUpperCase() + mode.slice(1);
+}
+
 const SIDES: Record<Exclude<Die, "d100">, number> = {
     d4: 4,
     d6: 6,

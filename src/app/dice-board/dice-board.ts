@@ -66,7 +66,8 @@ export class DiceBoard {
 
     throw(result: RollResult): void {
         const faces = result.rolls.flatMap((roll) =>
-            roll.faces().map((face) => ({ face, critClass: roll.critClass })),
+            // A discarded advantage / disadvantage die never glows; only the kept one counts.
+            roll.faces().map((face) => ({ face, critClass: face.discarded ? "" : roll.critClass })),
         );
         const size = this.dieSize(faces.length);
         const spots = this.pickSpots(faces.length, size);

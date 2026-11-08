@@ -13,6 +13,7 @@ img {
     height: 100%;
     user-select: none;
     filter: drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55));
+    transition: opacity 0.4s ease, scale 0.4s ease;
 }
 
 :host(.landed) img {
@@ -29,6 +30,15 @@ img {
     filter:
         drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55))
         drop-shadow(0 0 14px var(--fumble));
+}
+
+/* The d20 not kept by advantage / disadvantage fades back once it lands */
+:host(.discarded) img {
+    opacity: 0.4;
+    scale: 0.8;
+    filter:
+        grayscale(0.85)
+        drop-shadow(3px 6px 4px rgba(0, 0, 0, 0.55));
 }
 
 /* Small bump as the die comes to rest */

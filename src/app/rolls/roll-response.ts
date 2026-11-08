@@ -7,6 +7,8 @@ export interface DieRollJson {
     value: number;
     tens?: number; // d% only
     ones?: number; // d% only
+    mode?: "advantage" | "disadvantage"; // d20 rolled with advantage / disadvantage only
+    discarded?: number; // the d20 result that was not kept
 }
 
 export interface RollResponse {

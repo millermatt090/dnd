@@ -7,6 +7,7 @@ export interface DieFace {
     die: Die;
     src: string;
     alt: string;
+    discarded?: boolean; // the lower / higher d20 dropped by advantage / disadvantage
 }
 
 /**

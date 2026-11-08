@@ -103,6 +103,7 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
         │   └── dice-pool.ts          Dice selected for the next roll (signals)
         ├── die-button/               Clickable die that adds/removes itself from the pool
         ├── pool-tray/                Selected dice summary with Roll and Clear buttons
+        ├── mode-picker/              Normal / Advantage / Disadvantage switch for d20s
         ├── dice-board/               Velvet dice tray the dice are thrown onto
         ├── rolling-die/              One die: tumbles, travels and lands on its result
         │   └── roll-path.ts          Shape of a die's path across the board
@@ -110,6 +111,7 @@ The Angular dev server forwards `/api` requests to port 8000 (see `proxy.conf.js
         │   ├── roll-response.ts      JSON shapes returned by the API
         │   ├── die-roll.ts           Result of one standard die
         │   ├── percentile-roll.ts    Result of a d% roll (tens + ones)
+        │   ├── advantage-roll.ts     A d20 rolled with advantage / disadvantage (kept + discarded)
         │   └── roll-result.ts        All rolls from one Roll press
         ├── api/
         │   └── dice-api.ts           Calls the backend roll endpoint
@@ -122,6 +124,10 @@ Each component folder holds its `.ts`, `.html` and `.css` files.
 ## API
     GET /api/roll?dice=d20&dice=d4     roll a mixed set (1..20 dice)
     GET /api/roll/{die}?count=N        roll N of one die (1..20)
+
+Add `&mode=advantage` or `&mode=disadvantage` to either: each d20 is rolled twice and the
+higher / lower result is kept (other dice are unaffected). Those d20s also report the
+`discarded` result.
 
 Dice: d4, d6, d8, d10, d12, d20, d100 (percentile).
 

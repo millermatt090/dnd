@@ -1,0 +1,72 @@
+:host {
+    display: block;
+}
+
+/* Segmented switch inked onto the parchment */
+.mode-picker {
+    display: flex;
+    justify-content: center;
+}
+
+button.mode {
+    padding: 0.35rem 0.9rem;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+button.mode + button.mode {
+    margin-left: -1.5px;
+}
+
+button.mode:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+button.mode:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+button.mode[data-mode="advantage"]::before {
+    content: "▲ ";
+}
+
+button.mode[data-mode="disadvantage"]::before {
+    content: "▼ ";
+}
+
+button.mode:hover:not(:disabled):not(.active) {
+    background: rgba(43, 26, 14, 0.1);
+}
+
+button.mode:focus-visible {
+    outline: 2px solid var(--gold-dark);
+    outline-offset: 2px;
+}
+
+button.mode.active {
+    color: var(--parchment);
+    background: var(--ink);
+}
+
+button.mode.active[data-mode="advantage"] {
+    background: var(--advantage);
+    border-color: var(--advantage);
+}
+
+button.mode.active[data-mode="disadvantage"] {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+button.mode:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

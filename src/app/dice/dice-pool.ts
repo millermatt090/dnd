@@ -1,14 +1,16 @@
 import { Injectable, computed, signal } from "@angular/core";
 
-import { DIE_ORDER, Die, MAX_DICE, dieLabel } from "../dice";
+import { DIE_ORDER, Die, MAX_DICE, RollMode, dieLabel } from "../dice";
 
 /**
- * The set of dice selected for the next roll, e.g. 1d20 + 2d4.
- * State is held in signals, so anything that reads it updates automatically.
+ * The set of dice selected for the next roll, e.g. 1d20 + 2d4, and the roll mode
+ * (normal, advantage or disadvantage). State is held in signals, so anything that
+ * reads it updates automatically.
  */
 @Injectable({ providedIn: "root" })
 export class DicePool {
     private readonly counts = signal<ReadonlyMap<Die, number>>(new Map());
+    private readonly chosenMode = signal<RollMode>("normal");
 
     readonly size = computed(() =>
         Array.from(this.counts().values()).reduce((sum, count) => sum + count, 0),
@@ -24,6 +26,17 @@ export class DicePool {
             .filter((die) => this.count(die) > 0)
             .map((die) => `${this.count(die)}${dieLabel(die)}`)
             .join(" + "),
+    );
+
+    // Advantage and disadvantage only mean something when a d20 is in the pool.
+    readonly hasD20 = computed(() => this.count("d20") > 0);
+
+    // The mode the next roll will actually use.
+    readonly mode = computed<RollMode>(() => (this.hasD20() ? this.chosenMode() : "normal"));
+
+    // Notation plus the mode, e.g. "1d4 + 1d20 with advantage".
+    readonly summary = computed(() =>
+        this.mode() === "normal" ? this.notation() : `${this.notation()} with ${this.mode()}`,
     );
 
     count(die: Die): number {
@@ -42,8 +55,13 @@ export class DicePool {
         }
     }
 
+    setMode(mode: RollMode): void {
+        this.chosenMode.set(mode);
+    }
+
     clear(): void {
         this.counts.set(new Map());
+        this.chosenMode.set("normal");
     }
 
     // Every selected die as a flat list, e.g. ["d4", "d4", "d20"].

@@ -1,7 +1,9 @@
 <div class="tray">
     <div id="pool-summary">
-        {{ pool.isEmpty() ? "No dice chosen" : pool.notation() }}
+        {{ pool.isEmpty() ? "No dice chosen" : pool.summary() }}
     </div>
+
+    <app-mode-picker />
 
     <div class="tray-actions">
         <button

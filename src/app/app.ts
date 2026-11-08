@@ -22,7 +22,7 @@ export class App {
 
     protected async roll(): Promise<void> {
         try {
-            const result = await this.api.roll(this.pool.dice());
+            const result = await this.api.roll(this.pool.dice(), this.pool.mode());
             this.board().throw(result);
             this.pool.clear(); // start each roll with a fresh selection
         } catch (error) {

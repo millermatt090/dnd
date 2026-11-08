@@ -1,0 +1,21 @@
+<div
+    class="mode-picker"
+    role="radiogroup"
+    aria-label="Roll mode"
+    [title]="pool.hasD20() ? '' : 'Add a d20 to roll with advantage or disadvantage'"
+>
+    @for (mode of modes; track mode) {
+        <button
+            type="button"
+            role="radio"
+            class="mode"
+            [class.active]="pool.mode() === mode"
+            [attr.aria-checked]="pool.mode() === mode"
+            [attr.data-mode]="mode"
+            [disabled]="!pool.hasD20()"
+            (click)="pool.setMode(mode)"
+        >
+            {{ label(mode) }}
+        </button>
+    }
+</div>

@@ -44,6 +44,7 @@ There is no Python app code. Do not reintroduce Python, FastAPI or plain-JS fron
         ├── dice/            dice-pool.ts (selection state)
         ├── die-button/      component
         ├── pool-tray/       component
+        ├── mode-picker/     component (Normal / Advantage / Disadvantage)
         ├── dice-board/      component
         ├── rolling-die/     component (+ roll-path.ts)
         ├── rolls/           roll models and API response types
@@ -126,19 +127,27 @@ velvet-lined wooden dice tray with brass corners (`src/assets/board/board.jpg`).
 - Image names: `src/assets/<die>/<face>.png`. A d10 roll of 10 uses `d10/10.png` (shows "10");
   `d10/0.png` (shows "0") is only for the ones digit of a d% roll. d% faces are `00.png`–`90.png`.
 - The dice selection **resets after every successful roll**; it is kept if the roll fails.
-- A natural 20 / natural 1 on a d20 glows green / red on the board.
+- **Advantage / disadvantage** apply to d20s only (as in 5e): each d20 is rolled twice on the
+  server and the higher / lower result is kept. Other dice in the same roll are unaffected.
+  The mode can only be chosen while a d20 is selected and resets to normal with the selection.
+  Both d20s land on the board; the discarded one fades and greys out after landing.
+- A natural 20 / natural 1 on a kept d20 glows green / orange on the board (discarded dice never glow).
 - Respect `prefers-reduced-motion`: dice are placed without animation.
 - Results are announced to screen readers via a visually hidden live region.
 
 ### API
 
 ```
-GET /api/roll?dice=d20&dice=d4     -> { rolls: [{ die, value, tens?, ones? }], total }
-GET /api/roll/{die}?count=N        -> { die, rolls, total }
+GET /api/roll?dice=d20&dice=d4[&mode=advantage|disadvantage]
+                                   -> { rolls: [{ die, value, tens?, ones?, mode?, discarded? }], total }
+GET /api/roll/{die}?count=N[&mode=...]
+                                   -> { die, rolls, total }
 GET /healthz                       -> { status: "ok" }
 ```
 
-Unknown dice return 404, wrong counts return 422, both as `{ detail: "<message>" }`.
+`mode` is optional (default `normal`); `mode` and `discarded` appear only on d20s rolled with
+advantage / disadvantage, and `total` uses the kept values.
+Unknown dice return 404; wrong counts or an unknown `mode` return 422; all as `{ detail: "<message>" }`.
 The response shape is mirrored in `src/app/rolls/roll-response.ts`; change both together.
 
 ## Assets

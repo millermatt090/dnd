@@ -1,3 +1,4 @@
+import { AdvantageRoll } from "./advantage-roll";
 import { DieRoll } from "./die-roll";
 import { PercentileRoll } from "./percentile-roll";
 import { DieRollJson, RollResponse } from "./roll-response";
@@ -5,6 +6,9 @@ import { DieRollJson, RollResponse } from "./roll-response";
 function createRoll(json: DieRollJson): DieRoll {
     if (json.die === "d100") {
         return new PercentileRoll(json.value, json.tens ?? 0, json.ones ?? 0);
+    }
+    if (json.mode && json.discarded !== undefined) {
+        return new AdvantageRoll(json.value, json.discarded, json.mode);
     }
 
     return new DieRoll(json.die, json.value);
